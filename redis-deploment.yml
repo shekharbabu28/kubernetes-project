@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  labels:
+    name: redis
+    author: intelliqit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: redis
+  template:
+    metadata:
+      name: redis-pod
+      labels:
+        name: redis
+    spec:
+      containers:
+        - name: myredis
+          image: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  labels:
+    author: intelliqit
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 6379
+      port: 6379
+  selector:
+    name: redis
+...
